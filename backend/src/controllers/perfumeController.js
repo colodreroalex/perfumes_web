@@ -43,13 +43,13 @@ exports.updatePerfume = async (req, res) => {
   }
 };
 
-// Eliminar (soft delete) un perfume
+// Eliminar (hard delete) un perfume
 exports.deletePerfume = async (req, res) => {
   try {
     const perfume = await Perfume.findByPk(req.params.id);
     if (!perfume) return res.status(404).json({ error: 'Perfume no encontrado' });
-    await perfume.update({ activo: false });
-    res.json({ message: 'Perfume eliminado' });
+    await perfume.destroy();
+    res.json({ message: 'Perfume eliminado permanentemente' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -4,11 +4,10 @@ import Login from './Login';
 import CreatePerfume from './CreatePerfume';
 import logo from './logo.png';
 
-function PublicPerfumeList() {
+function PublicPerfumeList({ selected, setSelected }) {
   const [perfumes, setPerfumes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selected, setSelected] = useState(null);
 
   useEffect(() => {
     fetch('http://localhost:3001/api/perfumes')
@@ -282,7 +281,7 @@ function AdminPanel({ onLogout }) {
       {panel === 'crear' && <CreatePerfume onCreated={fetchPerfumes} />}
       {panel === 'editar' && <EditPerfumePanel perfumes={perfumes} onUpdated={fetchPerfumes} />}
       {panel === 'eliminar' && <DeletePerfumePanel perfumes={perfumes} onDeleted={fetchPerfumes} />}
-      {panel === 'public' && <PublicPerfumeList />}
+      {panel === 'public' && <PublicPerfumeList selected={null} setSelected={() => {}} />}
       {loading && panel && <p>Cargando perfumes...</p>}
       {error && panel && <p style={{ color: 'red' }}>{error}</p>}
     </div>
@@ -306,11 +305,18 @@ function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [showLoginInfo, setShowLoginInfo] = useState(false);
   const [view, setView] = useState('home'); // 'home', 'contacto'
+  const [selected, setSelected] = useState(null);
 
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
     setAdmin(false);
     setShowLogin(false);
+    setSelected(null);
+  };
+
+  const handleMenu = (newView) => {
+    setView(newView);
+    setSelected(null);
   };
 
   return (
@@ -318,12 +324,12 @@ function App() {
       <nav>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <img src={logo} alt="logo" style={{ width: 44, height: 44, borderRadius: 12, objectFit: 'cover', marginRight: 10 }} />
-          <h2 style={{ margin: 0, cursor: 'pointer' }} onClick={() => setView('home')}>Perfumes Arabes AE</h2>
+          <h2 style={{ margin: 0, cursor: 'pointer' }} onClick={() => handleMenu('home')}>Perfumes Arabes AE</h2>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <button className="menu-btn" style={{ background: view === 'home' ? 'var(--accent)' : 'var(--detail)', color: view === 'home' ? '#fff' : 'var(--text)' }} onClick={() => setView('home')}>Home</button>
+          <button className="menu-btn" style={{ background: view === 'home' ? 'var(--accent)' : 'var(--detail)', color: view === 'home' ? '#fff' : 'var(--text)' }} onClick={() => handleMenu('home')}>Home</button>
           {!admin && (
-            <button className="menu-btn" style={{ background: view === 'contacto' ? 'var(--accent)' : 'var(--detail)', color: view === 'contacto' ? '#fff' : 'var(--text)' }} onClick={() => setView('contacto')}>Contacto</button>
+            <button className="menu-btn" style={{ background: view === 'contacto' ? 'var(--accent)' : 'var(--detail)', color: view === 'contacto' ? '#fff' : 'var(--text)' }} onClick={() => handleMenu('contacto')}>Contacto</button>
           )}
           {!admin && (
             <button className="menu-btn" onClick={() => setShowLoginInfo(true)} style={{ background: 'transparent', border: 'none', boxShadow: 'none', padding: 0, marginLeft: 10 }} title="Admin Login">
@@ -339,7 +345,7 @@ function App() {
       </nav>
       {showLoginInfo && <LoginInfoModal onClose={() => { setShowLoginInfo(false); setShowLogin(true); }} />}
       {showLogin && !admin && <Login onLogin={() => { setAdmin(true); setShowLogin(false); }} />}
-      {!admin && !showLogin && view === 'home' && <PublicPerfumeList />}
+      {!admin && !showLogin && view === 'home' && <PublicPerfumeList selected={selected} setSelected={setSelected} />}
       {!admin && !showLogin && view === 'contacto' && <Contacto />}
       {admin && <AdminPanel onLogout={handleLogout} />}
     </div>
