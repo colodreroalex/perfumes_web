@@ -1,0 +1,491 @@
+.App {
+  text-align: center;
+  min-height: 100vh;
+  background: var(--main-bg);
+  color: var(--text);
+  font-family: 'Segoe UI', 'Roboto', sans-serif;
+  padding: 0;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+nav, .admin-header {
+  background: var(--main-bg);
+  border-bottom: 1px solid var(--detail);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 8px rgba(44,44,44,0.03);
+}
+
+nav h2, .admin-header h2 {
+  color: var(--accent);
+  font-family: 'Segoe UI', 'Roboto', sans-serif;
+  font-size: 2rem;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.menu-btn, .logout-btn, .switch-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-weight: 600;
+  font-size: 1.08rem;
+  cursor: pointer;
+  margin-left: 10px;
+  box-shadow: 0 2px 8px rgba(212,165,116,0.10), 0 1.5px 0 #fff;
+  transition: background 0.18s, box-shadow 0.18s, transform 0.12s;
+  position: relative;
+  overflow: hidden;
+}
+.menu-btn:active, .logout-btn:active, .switch-btn:active {
+  transform: scale(0.97);
+}
+.menu-btn:hover, .logout-btn:hover, .switch-btn:hover {
+  background: linear-gradient(90deg, var(--accent) 80%, var(--detail) 100%);
+  box-shadow: 0 4px 16px rgba(212,165,116,0.18);
+}
+.menu-btn::after, .logout-btn::after, .switch-btn::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(212,165,116,0.18);
+  border-radius: 100%;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s, opacity 0.3s;
+  opacity: 0;
+  z-index: 0;
+}
+.menu-btn:active::after, .logout-btn:active::after, .switch-btn:active::after {
+  width: 120%;
+  height: 300%;
+  opacity: 0.18;
+}
+
+.perfume-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  justify-content: center;
+  padding: 2.5rem 0 1rem 0;
+}
+
+.perfume-card {
+  background: #fff;
+  border: 1px solid var(--detail);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(44,44,44,0.07);
+  width: 320px;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  position: relative;
+  animation: card-fade-in 0.7s cubic-bezier(.77,0,.18,1);
+}
+
+.perfume-card:hover {
+  box-shadow: 0 8px 32px rgba(212,165,116,0.13);
+  border-color: var(--accent);
+}
+
+.perfume-img {
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 1.2rem;
+  background: var(--detail);
+  box-shadow: 0 2px 8px rgba(44,44,44,0.06);
+}
+
+.perfume-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+  letter-spacing: 0.5px;
+}
+
+.perfume-brand {
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  font-size: 1.05rem;
+}
+
+.perfume-desc {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.perfume-info {
+  font-size: 0.97rem;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+
+.perfume-price {
+  color: var(--accent);
+  font-size: 1.15rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.perfume-stock {
+  font-size: 0.97rem;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+form {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(44,44,44,0.04);
+  padding: 2rem;
+  margin: 2rem auto 1.5rem auto;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+form h3 {
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+form input, form select, form textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--detail);
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
+  background: #f9f7f6;
+  transition: border 0.2s;
+}
+form input:focus, form select:focus, form textarea:focus {
+  border: 1.5px solid var(--accent);
+  outline: none;
+}
+form button[type="submit"] {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background 0.2s;
+}
+form button[type="submit"]:hover {
+  background: #b98a5e;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: var(--main-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--detail);
+  border-radius: 8px;
+}
+
+.hero-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+.hero-title span {
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 1px;
+  position: relative;
+  padding-bottom: 8px;
+  text-shadow: 0 2px 12px rgba(212,165,116,0.10), 0 1px 0 #fff;
+}
+.hero-title span::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0.7);
+  bottom: 0;
+  width: 80%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent) 60%, var(--detail) 100%);
+  border-radius: 2px;
+  opacity: 0.7;
+  animation: underline-grow 1.2s cubic-bezier(.77,0,.18,1) 0.2s both;
+}
+@keyframes underline-grow {
+  from { width: 0; opacity: 0; }
+  to { width: 80%; opacity: 0.7; }
+}
+
+@keyframes card-fade-in {
+  from { opacity: 0; transform: translateY(30px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(120deg, #FEFEFE 70%, #E8D5D0 100%);
+  transition: background 0.5s;
+}
+
+.clickable {
+  cursor: pointer;
+  transition: box-shadow 0.18s, transform 0.13s;
+}
+.clickable:hover {
+  box-shadow: 0 8px 32px rgba(212,165,116,0.22), 0 2px 8px rgba(44,44,44,0.10);
+  transform: translateY(-3px) scale(1.025);
+  border-color: var(--accent);
+}
+
+.perfume-detail-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2.5rem;
+}
+.perfume-detail-card {
+  display: flex;
+  flex-direction: row;
+  gap: 2.5rem;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 6px 32px rgba(212,165,116,0.13);
+  padding: 2.5rem 2rem;
+  align-items: center;
+  max-width: 700px;
+  width: 100%;
+  animation: card-fade-in 0.7s cubic-bezier(.77,0,.18,1);
+}
+.perfume-detail-img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 16px;
+  background: var(--detail);
+  box-shadow: 0 2px 8px rgba(44,44,44,0.10);
+}
+.perfume-detail-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+@media (max-width: 700px) {
+  .perfume-detail-card {
+    flex-direction: column;
+    padding: 1.5rem 0.5rem;
+    gap: 1.2rem;
+  }
+  .perfume-detail-img {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(44,44,44,0.18);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeInModal 0.3s;
+}
+@keyframes fadeInModal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.modal-content {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(212,165,116,0.18);
+  padding: 2.5rem 2rem 2rem 2rem;
+  min-width: 320px;
+  max-width: 95vw;
+  width: 400px;
+  animation: card-fade-in 0.5s cubic-bezier(.77,0,.18,1);
+  position: relative;
+}
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.modal-content input, .modal-content select, .modal-content textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--detail);
+  font-size: 1rem;
+  background: #f9f7f6;
+  transition: border 0.2s;
+}
+.modal-content input:focus, .modal-content select:focus, .modal-content textarea:focus {
+  border: 1.5px solid var(--accent);
+  outline: none;
+}
+.modal-content textarea {
+  min-height: 80px;
+  max-height: 180px;
+  resize: none;
+}
+
+.admin-menu-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  margin: 3.5rem 0 2.5rem 0;
+  min-height: 0;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  max-width: 100%;
+  animation: adminMenuFadeIn 0.7s cubic-bezier(.77,0,.18,1);
+}
+.admin-menu-center .menu-btn, .admin-menu-center .switch-btn, .admin-menu-center .logout-btn {
+  width: 220px;
+  font-size: 1.13rem;
+  padding: 14px 0;
+  margin: 0;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(212,165,116,0.10);
+  letter-spacing: 0.5px;
+  background: var(--main-bg);
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
+  font-weight: 600;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s, transform 0.12s, border 0.18s;
+}
+.admin-menu-center .menu-btn:hover, .admin-menu-center .switch-btn:hover, .admin-menu-center .logout-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  border: 1.5px solid var(--accent);
+  box-shadow: 0 6px 18px rgba(212,165,116,0.18);
+  transform: scale(1.04);
+}
+
+.admin-panel-title {
+  text-align: center;
+  color: var(--accent);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 2.2rem;
+  letter-spacing: 1px;
+}
+.admin-section {
+  background: #fff;
+  border: 1.5px solid var(--detail);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(44,44,44,0.06);
+  max-width: 700px;
+  margin: 0 auto 2.5rem auto;
+  padding: 2.2rem 2rem 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.admin-section-title {
+  color: var(--accent);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.5px;
+}
+.admin-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  justify-content: center;
+  align-items: center;
+}
+.admin-btn-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.admin-btn-num {
+  font-size: 1.1rem;
+  color: var(--accent);
+  font-weight: 700;
+  margin-right: 4px;
+}
+.admin-section .menu-btn {
+  min-width: 120px;
+  padding: 10px 18px;
+  font-size: 1rem;
+  border-radius: 8px;
+  margin: 0;
+  box-shadow: 0 2px 8px rgba(212,165,116,0.10);
+  border: 1.5px solid var(--accent);
+  background: var(--main-bg);
+  color: var(--accent);
+  font-weight: 600;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s, transform 0.12s, border 0.18s;
+}
+.admin-section .menu-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  border: 1.5px solid var(--accent);
+  box-shadow: 0 6px 18px rgba(212,165,116,0.18);
+  transform: scale(1.04);
+}
